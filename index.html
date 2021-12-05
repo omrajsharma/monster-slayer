@@ -20,24 +20,37 @@
       <section id="monster" class="container">
         <h2>Monster Health</h2>
         <div class="healthbar">
-          <div class="healthbar__value" :style="{width: monsterHealth+'%'}"></div>
+          <div class="healthbar__value" :style="monsterBarStyle"> <span> {{monsterHealth}} </span> </div>
         </div>
       </section>
       <section id="player" class="container">
         <h2>Your Health</h2>
         <div class="healthbar">
-          <div class="healthbar__value" :style="{width: playerHealth+'%'}"></div>
+          <div class="healthbar__value" :style="playerBarStyle"> <span> {{playerHealth}} </span> </div>
         </div>
       </section>
+      <!-- RESULT SECTION -->
+      <section class="container" v-if="winner">
+        <h4>Game Over!</h4>
+        <h1 v-if="winner === 'player'">You Won!</h1>
+        <h1 v-else-if="winner === 'monster'">You Lost!</h1>
+        <h1 v-else-if="winner === 'draw'">It's a draw</h1>
+        <button @click="startNewGame">Start New Game</button>
+      </section>
+      <!-- CONTROLLER -->
       <section id="controls">
-        <button @click="attackMonster">ATTACK</button>
-        <button @click="">SPECIAL ATTACK</button>
-        <button @click="">HEAL</button>
-        <button @click="">SURRENDER</button>
+        <button :disabled="winner" @click="attackMonster">ATTACK</button>
+        <button :disabled="mayUseSpecialAttack || winner" @click="specialAttackMonster">SPECIAL ATTACK</button>
+        <button :disabled="winner" @click="healPlayer">HEAL</button>
+        <button :disabled="winner" @click="surrenderPlayer">SURRENDER</button>
       </section>
       <section id="log" class="container">
         <h2>Battle Log</h2>
-        <ul></ul>
+        <ul>
+          <li v-for="logMessage in logMessages">
+            {{logMessage.actionBy}} - {{logMessage.actionType}} - {{logMessage.actionValue}}
+          </li>
+        </ul>
       </section>
     </div>
   </body>

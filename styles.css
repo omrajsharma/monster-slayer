@@ -39,6 +39,10 @@ section {
   height: 100%;
 }
 
+.healthbar__value span {
+  color: white;
+}
+
 .container {
   text-align: center;
   padding: 0.5rem;
